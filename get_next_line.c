@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/16 16:07:41 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/16 21:24:49 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ int	main(void)
 {
 	int		fd;
 	int		ret;
+	int		nb_lines;
 	int		i;
 	char	buf[BUF_SIZE + 1];
 
 	fd = open("fichier.txt", O_RDONLY);
+	nb_lines = 0;
+	i = 0;
 	if (fd == -1)
 	{
 		ft_putstr("ERROR");
@@ -65,10 +68,16 @@ int	main(void)
 	}
 	ret = read(fd, buf, BUF_SIZE);
 	buf[ret] = '\0';
-	ft_putstr("Buffer size : ");
+	ft_putstr("Nombre de characteres : ");
 	ft_putnbr(ret);
 	ft_putchar('\n');
 	ft_putstr("*****************\n");
+	while (buf[i++] != EOF)
+	{
+		if (buf[i] == '\n')
+			nb_lines++;
+	}
+	printf("%d", nb_lines);
 	ft_putstr(buf);
 	return (0);
 }
