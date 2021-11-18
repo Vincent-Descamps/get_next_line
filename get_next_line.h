@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:42:17 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/17 14:38:10 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/18 21:26:47 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-void	*ft_memcpy(void	*dst, const void *src, size_t n);
-void	*ft_memchr(const void *s, int c, size_t n);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 
 #endif
