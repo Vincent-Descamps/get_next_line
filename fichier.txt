@@ -1,6 +1,4 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Curabitur a ex at justo maximus porta.
-Morbi vestibulum magna id nisl molestie pulvinar.
-Vivamus sed diam eget dui lobortis malesuada.
-Vivamus sed dui fringilla, accumsan erat ut, malesuada sapien.
-Morbi laoreet urna et tortor fringilla posuere.
+Je suis
+le chemin
+la verite
+et la vie.
