@@ -6,18 +6,18 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:10:50 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/18 20:11:34 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/22 10:35:17 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	ft_putchar(char c)
+void	ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-static void	ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ static void	ft_putstr(char *str)
 	}
 }
 
-static void	ft_putnbr(int n)
+void	ft_putnbr(int n)
 {
 	char		str;
 	long int	nb;
