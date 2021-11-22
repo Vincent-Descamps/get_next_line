@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/22 15:58:35 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:13:50 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,31 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 
-char	*get_next_line(int fd)
+int	ft_len_line(char *line)
 {
-	int		ret;
-	char	buf[BUF_SIZE + 1];
-	char	*saved_fd;
-	int		i;
-	char	*line;
+	int	i;
 
 	i = 0;
-	ret = read(fd, buf, BUF_SIZE);
-	ret = '\0';
-	saved_fd = buf;
-	line = ft_strjoin(line, buf);
+	while (line[i] != '\n')
+	{
+		i++;
+	}
+	return (i);
+}
+
+char	*get_next_line(int fd)
+{
+	int			ret;
+	char		buf[BUF_SIZE + 1];
+	static char	*line;
+
+	ret = 1;
+	while (ret > 0)
+	{
+		ret = read(fd, buf, BUF_SIZE);
+		buf[ret] = '\0';
+		line = ft_strjoin(line, buf);
+	}
 	printf("%s", line);
 	return (0);
 }
