@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/22 17:13:50 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:25:03 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,57 @@ void	ft_putstr(char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+char	*ft_strdup(const char *s1);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 int	ft_len_line(char *line)
 {
 	int	i;
 
 	i = 0;
-	while (line[i] != '\n')
+	while (line[i])
 	{
+		if (line[i] == '\n')
+			return (i);
 		i++;
 	}
-	return (i);
+	return (-1);
+}
+
+char	*ft_check_line(char *saved)
+{
+	char	*line;
+	int		i;
+	int		len;
+
+	i = 0;
+	len = ft_len_line(saved);
+	line = ft_substr(saved, i, len);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
 	int			ret;
 	char		buf[BUF_SIZE + 1];
-	static char	*line;
+	static char	*savedstr;
+	char		*line;
 
 	ret = 1;
+	savedstr = (char *)malloc(BUF_SIZE);
+	if (!savedstr)
+		return (0);
 	while (ret > 0)
 	{
 		ret = read(fd, buf, BUF_SIZE);
 		buf[ret] = '\0';
-		line = ft_strjoin(line, buf);
+		savedstr = ft_strjoin(savedstr, buf);
 	}
-	printf("%s", line);
-	return (0);
+	line = ft_check_line(savedstr);
+	printf("%s\n", savedstr);
+	printf("******************\n");
+	printf("%s\n", line);
+	return (line);
 }
 
 int	main(void)
@@ -54,6 +77,8 @@ int	main(void)
 
 	fd = open("fichier.txt", O_RDONLY);
 	get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
 	close(fd);
 	return (0);
 }
@@ -146,4 +171,47 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	int		i;
+	char	*tab;
+
+	tab = malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		tab[i] = s1[i];
+		i++;
+	}
+	tab[i] = '\0';
+	return (tab);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+	size_t	l;
+
+	l = ft_strlen(&s[start]);
+	if (l < len)
+		len = l;
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' && i < len)
+	{
+		str[i++] = s[start++];
+	}
+	str[i] = '\0';
+	return (str);
 }

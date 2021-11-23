@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:32:40 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/18 21:25:41 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/23 12:14:58 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,29 @@ char	*ft_strdup(const char *s1)
 	}
 	tab[i] = '\0';
 	return (tab);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+	size_t	l;
+
+	l = ft_strlen(&s[start]);
+	if (l < len)
+		len = l;
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' && i < len)
+	{
+		str[i++] = s[start++];
+	}
+	str[i] = '\0';
+	return (str);
 }
