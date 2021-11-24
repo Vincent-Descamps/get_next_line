@@ -6,69 +6,29 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/23 13:25:03 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/24 14:10:58 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_putchar(char c);
-size_t	ft_strlen(const char *s);
-void	ft_putstr(char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-
-int	ft_len_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\n')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	*ft_check_line(char *saved)
-{
-	char	*line;
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_len_line(saved);
-	line = ft_substr(saved, i, len);
-	return (line);
-}
-
 char	*get_next_line(int fd)
 {
 	int			ret;
+	int			j;
 	char		buf[BUF_SIZE + 1];
-	static char	*savedstr;
 	char		*line;
 
-	ret = 1;
-	savedstr = (char *)malloc(BUF_SIZE);
-	if (!savedstr)
-		return (0);
-	while (ret > 0)
+	j = 0;
+	ret = read(fd, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	line = malloc(sizeof (char) * BUF_SIZE);
+	while (read(fd, buf, BUF_SIZE) > 0 && buf[j++] != '\n')
 	{
-		ret = read(fd, buf, BUF_SIZE);
-		buf[ret] = '\0';
-		savedstr = ft_strjoin(savedstr, buf);
+		line += write(1, &buf[j], 1);
 	}
-	line = ft_check_line(savedstr);
-	printf("%s\n", savedstr);
-	printf("******************\n");
-	printf("%s\n", line);
-	return (line);
+	printf("%s", line);
+	return (0);
 }
 
 int	main(void)
@@ -77,8 +37,6 @@ int	main(void)
 
 	fd = open("fichier.txt", O_RDONLY);
 	get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
 	close(fd);
 	return (0);
 }
@@ -214,4 +172,39 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	size_t	start;
+	size_t	end;
+	char	*s1_cpy;
+
+	s1_cpy = 0;
+	if (s1 != 0 && set != 0)
+	{
+		start = 0;
+		end = ft_strlen(s1);
+		while (s1[start] && ft_strchr(set, s1[start]))
+			start++;
+		while (s1[end - 1] && ft_strchr(set, s1[end - 1]) && end > start)
+			end--;
+		s1_cpy = (char *)malloc(sizeof(char) * (end - start + 1));
+		if (!s1_cpy)
+			return (0);
+		ft_strlcpy(s1_cpy, &s1[start], end - start + 1);
+	}
+	return (s1_cpy);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0' && s[i] != (char)c)
+		i++;
+	if (s[i] == (char)c)
+		return ((char *)&s[i]);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:10:50 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/22 10:35:17 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/24 13:59:20 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	ft_putnbr(int n)
 
 char	*get_next_line(int fd)
 {
-	int		ret;
-	int		nb_lines;
-	int		i;
-	char	str[60];
-	char	buf[BUF_SIZE + 1];
+	int			ret;
+	int			nb_lines;
+	static int	i;
+	char		str[60];
+	char		buf[BUF_SIZE + 1];
 
 	ret = read(fd, buf, BUF_SIZE);
 	buf[ret] = '\0';
@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 	ft_putchar('\n');
 	ft_putstr("*****************\n");
 	ft_putstr(buf);
-	while (buf[i++] != EOF)
+	while (buf[i++])
 	{
 		if (buf[i] == '\n')
 		{
