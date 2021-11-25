@@ -6,14 +6,14 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:42:17 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/24 12:16:39 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/24 21:23:22 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUF_SIZE 100
+# define BUF_SIZE 10
 
 # include <stdio.h>
 # include <unistd.h>
@@ -21,12 +21,6 @@
 # include <stdlib.h>
 # include <ctype.h>
 # include <fcntl.h>
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
 
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
