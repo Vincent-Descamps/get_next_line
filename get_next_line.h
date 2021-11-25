@@ -6,14 +6,24 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:42:17 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/24 21:23:22 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/25 13:32:58 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUF_SIZE 10
+# define BUF_SIZE 9
+# define RESET		"\033[0m"
+# define RED		"\033[31m"
+# define YELLOW		"\033[33m"
+# define WHITE		"\033[37m"
+# define BOLDRED	"\033[1m\033[31m"
+# define BOLDYELLOW	"\033[1m\033[33m"
+# define BOLDBLUE	"\033[1m\033[34m"
+# define BOLDMAGENTA	"\033[1m\033[35m"
+# define BOLDCYAN	"\033[1m\033[36m"
+# define BOLDWHITE	"\033[1m\033[37m"
 
 # include <stdio.h>
 # include <unistd.h>
