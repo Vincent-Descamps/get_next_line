@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/24 21:28:23 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/25 07:38:49 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_saved_fd(int fd, char *saved_fd)
 		ret = read(fd, buf, BUF_SIZE);
 		buf[ret] = '\0';
 		saved_fd = ft_strjoin(saved_fd, buf);
+		printf("%d\n", ret);
 	}
 	free(buf);
 	return (saved_fd);
@@ -58,18 +59,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(tab, s2, len_s1 + len_s2 + 1);
 	return (tab);
 }
-/*
+
 int	main(void)
 {
 	int	fd;
 
 	fd = open("fichier.txt", O_RDONLY);
 	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
 	close(fd);
 	return (0);
 }
-*/

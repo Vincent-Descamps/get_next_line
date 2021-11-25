@@ -6,14 +6,14 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:42:17 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/24 21:23:22 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/24 21:42:02 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUF_SIZE 10
+# define BUF_SIZE 1
 
 # include <stdio.h>
 # include <unistd.h>
