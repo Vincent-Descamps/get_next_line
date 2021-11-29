@@ -6,26 +6,90 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/29 20:02:26 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/29 22:04:42 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_next_str(char *saved_str)
+{
+	char	*next_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (saved_str[i] && saved_str[i] != '\n')
+		i++;
+	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - (i + 1)));
+	if (!next_str)
+		return (NULL);
+	j = 0;
+	i++;
+	while (saved_str[i])
+		next_str[j++] = saved_str[i++];
+	next_str[j] = '\0';
+	return (next_str);
+}
+
+char	*ft_format(char *saved_str)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (saved_str[i] && saved_str[i] != '\n')
+		i++;
+	line = (char *)malloc(sizeof (char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (saved_str[i] && saved_str[i] != '\n')
+	{
+		line[i] = saved_str[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char	*ft_store(int fd, char *str)
+{
+	int		ret;
+	char	*buff;
+
+	ret = 1;
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
+		return (NULL);
+	while (ret != 0 && !ft_strchr(buff, '\n'))
+	{
+		ret = read(fd, buff, BUFFER_SIZE + 1);
+		buff[ret] = '\0';
+		str = ft_strjoin(str, buff);
+	}
+	free(buff);
+	return (str);
+}
+
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*saved_fd;
+	static char		*saved_str;
 
+	saved_str = ft_store(fd, saved_str);
+	line = ft_format(saved_str);
+	saved_str = ft_next_str(saved_str);
+	return (line);
 }
 
 int	main(void)
 {
 	int	fd;
 
-	fd = open("autre", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	fd = open("fichier.txt", O_RDONLY);
+	printf("%s\n",get_next_line(fd));
+	printf("%s\n",get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);
