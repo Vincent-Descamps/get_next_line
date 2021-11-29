@@ -6,11 +6,17 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/25 14:53:20 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/26 15:53:25 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_reset(char *saved)
+{
+	printf("$$ %s $$", saved);
+	return (0);
+}
 
 char	*ft_check_line(char *line)
 {
@@ -20,7 +26,7 @@ char	*ft_check_line(char *line)
 	i = 0;
 	while (line[i] != '\n')
 		i++;
-	str = malloc(sizeof (char) * i);
+	str = malloc(sizeof(char) * (i + 1));
 	if (!str)
 		return (0);
 	i = 0;
@@ -29,6 +35,7 @@ char	*ft_check_line(char *line)
 		str[i] = line[i];
 		i++;
 	}
+	str[i] = '\0';
 	printf(BOLDYELLOW"line length :"RESET" %d\n", i);
 	return (str);
 }
@@ -40,31 +47,31 @@ char	*ft_saved_fd(int fd, char *saved_fd)
 	char	*line;
 
 	ret = 1;
+	saved_fd = "";
 	buf = malloc(sizeof(char) * (BUF_SIZE + 1));
 	if (!buf)
 		return (NULL);
 	while (ret > 0 && !ft_strchr(saved_fd, '\n'))
 	{
-		/*if (buf != NULL)
-			buf = ft_strdup("");*/
 		ret = read(fd, buf, BUF_SIZE);
 		buf[ret] = '\0';
 		saved_fd = ft_strjoin(saved_fd, buf);
-		printf("%d\n", ret);
 	}
 	printf(BOLDYELLOW"saved output with buffer : "RESET"//%s//\n", saved_fd);
 	printf(BOLDYELLOW"Left in Buffer : "RESET"@@ %s @@\n", buf);
-	line = ft_check_line(saved_fd);
-	printf(BOLDCYAN"--------------->line output : "RESET"##%s##\n", line);
-	return (line);
+	free(buf);
+	return (saved_fd);
 }
 
 char	*get_next_line(int fd)
 {
+	char			*line;
 	static char		*saved_fd;
 
-	saved_fd = "\0";
 	saved_fd = ft_saved_fd(fd, saved_fd);
+	line = ft_check_line(saved_fd);
+	printf(BOLDCYAN"--------------->line output : "RESET"##%s##\n", line);
+	saved_fd = ft_reset(saved_fd);
 	return (0);
 }
 
