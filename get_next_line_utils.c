@@ -6,38 +6,15 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:32:40 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/24 21:26:07 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/11/29 18:42:42 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t	dstlen;
-	size_t	srclen;
-	size_t	i;
-
-	dstlen = ft_strlen(dst);
-	srclen = ft_strlen(src);
-	i = 0;
-	if (dstsize < dstlen + 1)
-		return (dstsize + srclen);
-	if (dstsize > dstlen + 1)
-	{
-		while (src[i] != '\0' && dstlen + 1 + i < dstsize)
-		{
-			dst[dstlen + i] = src[i];
-			i++;
-		}
-	}
-	dst[dstlen + i] = '\0';
-	return (dstlen + srclen);
-}
-
 size_t	ft_strlen(const char *s)
 {
-	unsigned int	i;
+	size_t	i;
 
 	i = 0;
 	if (!s)
@@ -45,24 +22,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	char	*tab;
-
-	tab = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		tab[i] = s1[i];
-		i++;
-	}
-	tab[i] = '\0';
-	return (tab);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -77,22 +36,30 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	i;
-	size_t	srclen;
+	int		i;
+	int		j;
+	char	*tab;
 
-	i = 0;
-	srclen = 0;
-	while (src[srclen] != '\0')
-		srclen++;
-	if (dstsize == 0)
-		return (srclen);
-	while (src[i] != '\0' && i < (dstsize - 1))
+	if (!s1)
 	{
-		dst[i] = src[i];
-		i++;
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	dst[i] = '\0';
-	return (srclen);
+	if (!s2)
+		return (NULL);
+	tab = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!tab)
+		return (NULL);
+	i = -1;
+	j = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			tab[i] = s1[i];
+	while (s2[j] != '\0')
+		tab[i++] = s2[j++];
+	tab[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free (s1);
+	return (tab);
 }
