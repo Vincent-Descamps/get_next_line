@@ -6,143 +6,146 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/11/29 12:57:54 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/02 14:02:12 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_check_line(char *line)
+char	*ft_next_str(char *saved_str)
 {
+	char	*next_str;
 	int		i;
-	char	*str;
+	int		j;
 
 	i = 0;
-	while (line[i] != '\n')
+	while (saved_str[i] && saved_str[i] != '\n')
 		i++;
-	str = malloc(sizeof (char) * i);
-	if (!str)
-		return (0);
-	i = 0;
-	while (line[i] && line[i] != '\n')
+	if (!saved_str[i])
 	{
-		str[i] = line[i];
-		i++;
+		free(saved_str);
+		return (NULL);
 	}
-	printf(BOLDYELLOW"line length :"RESET" %d\n", i);
-	return (str);
+	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - (i + 1)));
+	if (!next_str)
+		return (NULL);
+	j = 0;
+	i++;
+	while (saved_str[i])
+		next_str[j++] = saved_str[i++];
+	next_str[j] = '\0';
+	free(saved_str);
+	return (next_str);
 }
 
-char	*ft_saved_fd(int fd, char *saved_fd)
+char	*ft_format(char *saved_str)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (saved_str[i] && saved_str[i] != '\n')
+		i++;
+	line = (char *)malloc(sizeof (char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (saved_str[i] && saved_str[i] != '\n')
+	{
+		line[i] = saved_str[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char	*ft_store(int fd, char *str)
 {
 	int		ret;
-	int		len;
-	char	*buf;
-	char	*line;
+	char	*buff;
 
 	ret = 1;
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
 		return (NULL);
-	saved_fd = ft_strdup("");
-	while (ret > 0 && !ft_strchr(saved_fd, '\n'))
+	while (ret > 0 && !ft_strchr(buff, '\n'))
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		buf[ret] = '\0';
-		saved_fd = ft_strjoin(saved_fd, buf);
+		ret = read(fd, buff, BUFFER_SIZE);
+		if (ret == -1)
+		{
+			free(buff);
+			return (NULL);
+		}
+		buff[ret] = '\0';
+		str = ft_strjoin(str, buff);
 	}
-	printf(BOLDYELLOW"saved output with buffer : "RESET"//%s//\n", saved_fd);
-	printf(BOLDYELLOW"Left in Buffer : "RESET"@@ %s @@\n", buf);
-	len = ft_strlen(line);
-	line = ft_check_line(saved_fd);
-	saved_fd = ft_substr(saved_fd, len + 1, BUFFER_SIZE - 1);
-	printf(BOLDCYAN"--------------->line output : "RESET"##%s##\n", saved_fd);
-	return (line);
+	free(buff);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		*saved_fd;
+	char			*line;
+	static char		*saved_str;
 
-	saved_fd = ft_saved_fd(fd, saved_fd);
-	return (0);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int				len_s1;
-	int				len_s2;
-	char			*tab;
-
-	if (!s1 || !s2)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	tab = (char *)malloc(len_s1 + len_s2 + 1);
-	if (!tab)
-		return (0);
-	ft_strlcpy(tab, s1, len_s1 + 1);
-	ft_strlcat(tab, s2, len_s1 + len_s2 + 1);
-	return (tab);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*str;
-	size_t	l;
-
-	l = ft_strlen(&s[start]);
-	if (l < len)
-		len = l;
-	if (!s)
+	saved_str = ft_store(fd, saved_str);
+	if (!saved_str)
 		return (NULL);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0' && i < len)
-	{
-		str[i++] = s[start++];
-	}
-	str[i] = '\0';
-	return (str);
+	line = ft_format(saved_str);
+	saved_str = ft_next_str(saved_str);
+	return (line);
 }
-
+/*
 int	main(void)
 {
 	int	fd;
 	int	fd1;
 
 	fd = open("fichier.txt", O_RDONLY);
-	fd1 = open("autre", O_RDONLY);
 	printf("\n");
 	printf(BOLDCYAN"BUFFER SIZE :"RESET" %i\n", BUFFER_SIZE);
 	printf("\n");
 	printf(BOLDRED"## call 1 : ##"RESET"\n");
-	get_next_line(fd);
+	printf("%s\n", get_next_line(fd));
 	printf("\n");
 	printf(BOLDRED"## call 2 : ##"RESET"\n");
-	get_next_line(fd);
+	printf("%s\n", get_next_line(fd));
 	printf("\n");
 	printf(BOLDRED"## call 3 : ##"RESET"\n");
-	get_next_line(fd);
+	printf("%s\n", get_next_line(fd));
 	printf("\n");
+	printf(BOLDRED"## call 4 : ##"RESET"\n");
+	printf("%s\n", get_next_line(fd));
+	printf("\n");
+	close(fd);
+	fd1 = open("autre", O_RDONLY);
 	printf(BOLDBLUE"****************\n");
 	printf("*    test 2    *\n");
 	printf("****************\n"RESET);
 	printf("\n");
 	printf(BOLDRED"## call 1 : ##"RESET"\n");
-	get_next_line(fd1);
+	printf("%s\n", get_next_line(fd1));
 	printf("\n");
 	printf(BOLDRED"## call 2 : ##"RESET"\n");
-	get_next_line(fd1);
+	printf("%s\n", get_next_line(fd1));
 	printf("\n");
 	printf(BOLDRED"## call 3 : ##"RESET"\n");
-	get_next_line(fd1);
-	close(fd);
+	printf("%s\n", get_next_line(fd1));
 	close(fd1);
 	return (0);
 }
+
+int	main(void)
+{
+	int	fd;
+
+	fd = open("fichier.txt", O_RDONLY);
+	printf("%s\n",get_next_line(fd));
+	printf("%s\n",get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	close(fd);
+	return (0);
+}
+*/
