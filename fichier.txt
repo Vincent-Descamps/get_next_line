@@ -1,7 +1,1 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Donec ut arcu ullamcorper, condimentum metus eu, viverra lorem.
-Curabitur sed neque pharetra lectus bibendum pretium eu a magna.
-Mauris et ex eget ipsum cursus eleifend.
-Nam cursus ipsum sem, ut fringilla elit suscipit non.
-Praesent in diam ligula.
-Integer condimentum sit amet tortor vel malesuada.
+
