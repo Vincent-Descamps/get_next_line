@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/01 14:12:40 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:18:20 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ char	*ft_format(char *saved_str)
 		line[i] = saved_str[i];
 		i++;
 	}
-	line[i] = '\0';
+	if (saved_str[i])
+		line[i] = '\n';
+	else
+		line[i] = '\0';
 	return (line);
 }
 
@@ -86,8 +89,9 @@ char	*get_next_line(int fd)
 {
 	char			*line;
 	static char		*saved_str;
+	char			buf[1];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0)
 		return (NULL);
 	saved_str = ft_store(fd, saved_str);
 	if (!saved_str)
@@ -95,6 +99,18 @@ char	*get_next_line(int fd)
 	line = ft_format(saved_str);
 	saved_str = ft_next_str(saved_str);
 	return (line);
+}
+
+int	main(void)
+{
+	int	fd;
+
+	fd = open("fichier.txt", O_RDONLY);
+	printf("%s\n", get_next_line(fd));
+	printf("%s\n", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	close(fd);
+	return (0);
 }
 /*
 int	main(void)
@@ -133,18 +149,6 @@ int	main(void)
 	printf(BOLDRED"## call 3 : ##"RESET"\n");
 	printf("%s\n", get_next_line(fd1));
 	close(fd1);
-	return (0);
-}
-
-int	main(void)
-{
-	int	fd;
-
-	fd = open("fichier.txt", O_RDONLY);
-	printf("%s\n",get_next_line(fd));
-	printf("%s\n",get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
 	return (0);
 }
 */
