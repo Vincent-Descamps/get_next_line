@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/02 16:52:36 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/03 11:52:35 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ char	*ft_format(char *saved_str)
 		line[i] = saved_str[i];
 		i++;
 	}
-	line[i] = '\0';
+	if (saved_str[i])
+		line[i] = '\n';
+	else
+		line[i] = '\0';
 	return (line);
 }
 
@@ -65,7 +68,7 @@ char	*ft_store(int fd, char *str)
 	char	*buff;
 
 	ret = 1;
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
 	while (ret > 0 && !ft_strchr(buff, '\n'))
@@ -107,7 +110,6 @@ int	main(void)
 	close(fd);
 	return (0);
 }
-
 /*
 int	main(void)
 {
