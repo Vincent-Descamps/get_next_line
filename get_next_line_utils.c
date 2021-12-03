@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:32:40 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/03 11:34:00 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/03 18:33:06 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0' && s[i] != (char)c)
+	if (!s)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
 		i++;
-	if (s[i] == (char)c)
-		return ((char *)&s[i]);
+	}
 	return (0);
 }
 

@@ -6,14 +6,14 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:42:17 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/03 11:25:34 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:29:21 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE 1
+/*# define BUFFER_SIZE 1
 # define RESET		"\033[0m"
 # define RED		"\033[31m"
 # define YELLOW		"\033[33m"
@@ -24,7 +24,7 @@
 # define BOLDMAGENTA	"\033[1m\033[35m"
 # define BOLDCYAN	"\033[1m\033[36m"
 # define BOLDWHITE	"\033[1m\033[37m"
-
+*/
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>

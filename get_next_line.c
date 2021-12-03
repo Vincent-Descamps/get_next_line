@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/03 16:18:20 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/03 17:29:05 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ char	*ft_next_str(char *saved_str)
 	i = 0;
 	while (saved_str[i] && saved_str[i] != '\n')
 		i++;
+	if (!saved_str[i])
+	{
+		free(saved_str);
+		return (NULL);
+	}
 	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - (i + 1)));
 	if (!next_str)
 		return (NULL);
@@ -43,7 +48,7 @@ char	*ft_format(char *saved_str)
 		return (NULL);
 	while (saved_str[i] && saved_str[i] != '\n')
 		i++;
-	line = (char *)malloc(sizeof (char) * (i + 1));
+	line = (char *)malloc(sizeof (char) * (i + 2));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -52,10 +57,12 @@ char	*ft_format(char *saved_str)
 		line[i] = saved_str[i];
 		i++;
 	}
-	if (saved_str[i])
-		line[i] = '\n';
-	else
-		line[i] = '\0';
+	if (saved_str[i] == '\n')
+	{
+		line[i] = saved_str[i];
+		i++;
+	}
+	line[i] = '\0';
 	return (line);
 }
 
@@ -68,11 +75,9 @@ char	*ft_store(int fd, char *str)
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
-	while (ret > 0 && !ft_strchr(buff, '\n'))
+	while (ret > 0 && !ft_strchr(str, '\n'))
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
-		if (ret == 0)
-			break ;
 		if (ret == -1)
 		{
 			free(buff);
@@ -89,9 +94,8 @@ char	*get_next_line(int fd)
 {
 	char			*line;
 	static char		*saved_str;
-	char			buf[1];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	saved_str = ft_store(fd, saved_str);
 	if (!saved_str)
@@ -100,19 +104,19 @@ char	*get_next_line(int fd)
 	saved_str = ft_next_str(saved_str);
 	return (line);
 }
-
+/*
 int	main(void)
 {
 	int	fd;
 
 	fd = open("fichier.txt", O_RDONLY);
-	printf("%s\n", get_next_line(fd));
-	printf("%s\n", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);
 }
-/*
+
 int	main(void)
 {
 	int	fd;
