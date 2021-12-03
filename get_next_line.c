@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/01 13:15:48 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/01 14:12:40 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ char	*ft_next_str(char *saved_str)
 	i = 0;
 	while (saved_str[i] && saved_str[i] != '\n')
 		i++;
-	if (!saved_str[i])
-	{
-		free(saved_str);
-		return (NULL);
-	}
 	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - (i + 1)));
 	if (!next_str)
 		return (NULL);
@@ -44,6 +39,8 @@ char	*ft_format(char *saved_str)
 	int		i;
 
 	i = 0;
+	if (*saved_str == '\0')
+		return (NULL);
 	while (saved_str[i] && saved_str[i] != '\n')
 		i++;
 	line = (char *)malloc(sizeof (char) * (i + 1));
@@ -71,6 +68,8 @@ char	*ft_store(int fd, char *str)
 	while (ret > 0 && !ft_strchr(buff, '\n'))
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
+		if (ret == 0)
+			break ;
 		if (ret == -1)
 		{
 			free(buff);
