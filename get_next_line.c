@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/03 17:29:05 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/06 13:34:06 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_next_str(char *saved_str)
 {
-	char	*next_str;
-	int		i;
-	int		j;
+	char			*next_str;
+	unsigned int	i;
+	unsigned long	j;
 
 	i = 0;
 	while (saved_str[i] && saved_str[i] != '\n')
@@ -108,18 +108,6 @@ char	*get_next_line(int fd)
 int	main(void)
 {
 	int	fd;
-
-	fd = open("fichier.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
-}
-
-int	main(void)
-{
-	int	fd;
 	int	fd1;
 
 	fd = open("fichier.txt", O_RDONLY);
@@ -153,6 +141,18 @@ int	main(void)
 	printf(BOLDRED"## call 3 : ##"RESET"\n");
 	printf("%s\n", get_next_line(fd1));
 	close(fd1);
+	return (0);
+}
+
+int	main(void)
+{
+	int	fd;
+
+	fd = open("fichier.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	close(fd);
 	return (0);
 }
 */

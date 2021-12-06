@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:32:40 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/03 18:33:06 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/06 12:41:17 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
 	i = 0;
 	if (!s)
 		return (NULL);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
