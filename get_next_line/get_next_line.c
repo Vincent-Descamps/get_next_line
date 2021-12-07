@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/06 13:34:06 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:44:17 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_next_str(char *saved_str)
 {
-	char			*next_str;
-	unsigned int	i;
-	unsigned long	j;
+	char	*next_str;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (saved_str[i] && saved_str[i] != '\n')
