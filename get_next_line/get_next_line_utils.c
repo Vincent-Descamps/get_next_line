@@ -6,13 +6,13 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:32:40 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/07 12:35:45 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/08 11:42:45 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
@@ -31,8 +31,6 @@ char	*ft_strchr(char *s, int c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
@@ -42,7 +40,7 @@ char	*ft_strchr(char *s, int c)
 	return (0);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	int		i;
 	char	*tab;
@@ -60,10 +58,10 @@ char	*ft_strdup(const char *s1)
 	return (tab);
 }
 
-char	*ft_strjoin(char *s1, const char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	*tab;
 
 	if (!s1)

@@ -6,7 +6,7 @@
 /*   By: vdescamp <vdescamp@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 10:46:30 by vdescamp          #+#    #+#             */
-/*   Updated: 2021/12/07 12:44:17 by vdescamp         ###   ########.fr       */
+/*   Updated: 2021/12/08 11:37:10 by vdescamp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_next_str(char *saved_str)
 		free(saved_str);
 		return (NULL);
 	}
-	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - (i + 1)));
+	next_str = (char *)malloc(sizeof(char) * (ft_strlen(saved_str) - i + 1));
 	if (!next_str)
 		return (NULL);
 	j = 0;
